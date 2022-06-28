@@ -29,7 +29,7 @@ app.post('/auth/register', registerValidation, UserController.register);
 // Информация о нас
 app.get('/auth/me',checkAuth, UserController.getMe);
 
-// app.get('/posts', PostController.getAll);
+app.get('/posts', PostController.getAll);
 // app.get('/posts'/:id, PostController.getOne);
 app.post('/posts',checkAuth, postCreateValidation, PostController.create);
 // app.delete('/posts', PostController.remove);
