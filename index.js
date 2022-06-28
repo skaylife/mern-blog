@@ -1,4 +1,28 @@
-let a = 1; 
-let v = 3;
+import express from 'express';
 
-console.log("Start :", a+v);
+const app = express();
+
+app.use(express.json());
+
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
+
+app.post('/auth/login', (req, res) => {
+    console.log(req.body)
+    res.json({
+        success: true,
+    });
+});
+
+app.put('/', (req, res) => {
+    res.send('PUT request to homepage')
+  })
+
+app.listen(4444, (err) => {
+    if(err) {
+        return console.log(err);
+    }
+
+    console.log('Server OK');
+});
