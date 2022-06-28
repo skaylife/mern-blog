@@ -2,9 +2,13 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
-import { registerValidation } from './validations/auth.js'
+
+import { registerValidation } from './validations/auth.js';
 import { validationResult } from 'express-validator';
-import UserModel from './models/User.js'
+
+import UserModel from './models/User.js';
+import checkAuth from './utils/checkAuth.js';
+
 
 
 mongoose
@@ -112,6 +116,30 @@ app.post('/auth/register', registerValidation, async (req, res) => {
         });
     }   
 });
+
+// Информация о нас
+app.get('/auth/me',checkAuth, async (req, res) => {
+    try {
+        const user = await UserModel.findById(req.userId);
+
+        if(!user) {
+            return res.status(404).json({
+                message: 'Пользователь не найден'
+            })
+        }
+
+        // Деструктуризация для того чтоб не использовать passwordHash
+        const {passwordHash, ...userData} = user._doc; 
+
+        // Успешный пуш данных для регистрации 
+        res.json(userData);
+    } catch (err) {
+        console.log('Ошибка авторизации: ', err);
+        res.status(500).json({
+            message: 'Нет доступа',
+        });
+    }
+})
 
 app.listen(4444, (err) => {
     if(err) {
