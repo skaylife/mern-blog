@@ -1,4 +1,4 @@
-import { validationResult } from "express-validator/src/validation-result";
+import { validationResult } from "express-validator";
 
 export default (req, res, next) => {
     // Возврат ошибок, если они имеются
